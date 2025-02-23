@@ -1,0 +1,16 @@
+attrs==23.2.1.dev0
+certifi==2025.1.31
+cffi==1.17.1
+cryptography==44.0.0
+filelock==3.17.0
+packaging==24.2
+psutil==6.1.1
+pycparser==2.22
+pygdbmi==0.11.0.0
+PyGObject==3.50.0
+sentry-sdk==2.21.0
+smbus==1.1
+TBB==0.2
+ufw==0.36.2
+urllib3==2.3.0
+wheel==0.45.0
