@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <form method="post">
+        <input type="text" name="keyword" placeholder="Anahtar kelime girin">
+        <select name="filter">
+            <option value="all">Hepsi</option>
+            <option value="single">Tek Kelimeler</option>
+            <option value="bigram">İkililer</option>
+            <option value="trigram">Üçlüler</option>
+        </select>
+        <input type="submit" value="Analiz Et">
+    </form>
+
+    {% if results %}
+        <h2>{{ keyword }} için Sonuçlar</h2>
+        <p><strong>Rekabet Seviyesi:</strong> {{ results.competition }}</p>
+        <p><strong>Trend Durumu:</strong> {{ results.trend.status }}
+            {% if results.trend.average_interest is defined %}
+                (Ortalama İlgi: {{ results.trend.average_interest }})
+            {% endif %}
+        </p>
+        <p><strong>Önerilen Anahtar Kelimeler:</strong> {{ results.suggestions|join(", ") }}</p>
+        <p><strong>Rakip Domainler:</strong> {{ results.competitors|join(", ") }}</p>
+
+        <h3>Rakip Analizi</h3>
+        <table border="1">
+            <tr><th>Domain</th><th>En Sık Kelimeler</th><th>Alışveriş Niyeti Oranı (%)</th></tr>
+            {% for domain, analysis in results.competitor_analysis.items() %}
+                <tr>
+                    <td>{{ domain }}</td>
+                    <td>{{ analysis.top_keywords|join(", ") }}</td>
+                    <td>{{ analysis.intent_ratio }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Anahtar Kelime Analizi</h3>
+        <table border="1">
+            <tr><th>Anahtar Kelime</th><th>Sayı</th><th>Tür</th><th>Alışveriş Niyeti</th></tr>
+            {% for result in results.keywords %}
+                <tr>
+                    <td>{{ result.keyword }}</td>
+                    <td>{{ result.count }}</td>
+                    <td>{{ result.type }}</td>
+                    <td>{{ "Evet" if result.purchase_intent else "Hayır" }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>
